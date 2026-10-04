@@ -4,223 +4,287 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Draco Launcher</title>
-<meta name="description" content="半マスずつ置けて、ガラスの板を重ねられる Android のホームアプリ。Nova Launcher の配置をそのまま引っ越せます。">
+<meta name="description" content="自由度高めの Android ランチャー。AI の力を借りて、個人で作っています。">
 <meta property="og:title" content="Draco Launcher">
-<meta property="og:description" content="半マスずつ置けて、ガラスの板を重ねられる Android のホームアプリ。">
-<meta property="og:image" content="assets/keyvisual.webp">
+<meta property="og:description" content="自由度高めの Android ランチャー。AI の力を借りて、個人で作っています。">
+<meta property="og:image" content="https://watanuki-azuma.github.io/draco-launcher/assets/keyvisual.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
 <style>
-  :root {
-    --night: #0b1530;
-    --sky: #13265a;
-    --star: #f2d27a;
-    --scale: #b3262e;
-    --cloud: #ece9f2;
-    --mist: #9aa6c8;
-    --line: rgba(242, 210, 122, 0.45);
-  }
+  /* Hallmark · macrostructure: Workbench · tone: playful-utilitarian · anchor hue: 25 (dragon red) on 265 (night)
+   * theme: custom (vibe: 夜空・竜の赤・手づくりの道具箱) · display: Dela Gothic One + body: Zen Kaku Gothic New
+   * nav: N1a (one destination) · footer: Ft1 minimal · enrichment: real device screenshots
+   * Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4
+   */
   * { box-sizing: border-box; margin: 0; }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  html, body { overflow-x: clip; }
   body {
-    background: var(--night);
-    color: var(--cloud);
-    font-family: "Zen Kaku Gothic New", system-ui, sans-serif;
-    font-size: 17px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
     line-height: 1.85;
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--star); }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--star); outline-offset: 3px; border-radius: 6px; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; border-radius: var(--radius-sm); }
+  h1, h2 { font-family: var(--font-display); font-weight: 400; font-style: normal; line-height: 1.3; overflow-wrap: anywhere; min-width: 0; }
+  img { display: block; max-width: 100%; height: auto; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(16px, 5vw, 48px); }
 
-  /* 表紙: 絵の左下（山と街の灯り）の暗い所に名前を置く */
-  .hero {
-    position: relative;
-    min-height: min(100svh, 62vw + 120px);
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-  }
-  .hero img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: 70% 30%;
-  }
-  .hero::after {
-    content: ""; position: absolute; inset: 0;
-    background: linear-gradient(to top, var(--night) 0%, rgba(11, 21, 48, 0.55) 28%, rgba(11, 21, 48, 0) 55%);
-  }
-  .hero-text {
-    position: relative; z-index: 1;
-    padding: 0 clamp(16px, 6vw, 88px) clamp(40px, 7vw, 96px);
-    max-width: 640px;
-  }
-  .hero h1 {
-    font-weight: 900;
-    font-size: clamp(44px, 8vw, 104px);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-  }
-  .hero h1 span { display: block; color: var(--star); }
-  .hero p.lead {
-    margin-top: 20px;
-    font-size: clamp(17px, 2vw, 20px);
-    color: var(--cloud);
-    max-width: 30em;
-  }
-  .get {
-    margin-top: 28px;
-    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px;
-  }
   .button {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 14px 26px;
-    border-radius: 999px;
-    background: var(--scale);
-    color: #fff;
-    font-weight: 700;
-    font-size: 17px;
-    text-decoration: none;
-    box-shadow: 0 8px 28px rgba(179, 38, 46, 0.45);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    padding: 13px 24px; border-radius: var(--radius-pill);
+    background: var(--color-accent); color: var(--color-on-accent);
+    font-weight: 700; font-size: var(--text-md); text-decoration: none; white-space: nowrap;
+    transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
   }
-  .button:hover { transform: translateY(-1px); box-shadow: 0 10px 32px rgba(179, 38, 46, 0.6); }
-  .button svg { width: 20px; height: 20px; }
-  .version { color: var(--mist); font-size: 15px; }
+  .button:hover { background: var(--color-accent-hover); }
+  .button:active { transform: translateY(1px); }
+  .button svg { width: 18px; height: 18px; flex: none; }
+  .note { color: var(--color-ink-2); font-size: var(--text-sm); }
 
-  main { padding: 0 clamp(16px, 6vw, 88px); }
-  section { max-width: 920px; margin: 0 auto; padding: clamp(56px, 9vw, 112px) 0 0; }
-  h2 {
-    font-weight: 900;
-    font-size: clamp(28px, 4vw, 40px);
-    line-height: 1.3;
-    margin-bottom: 28px;
+  /* 上の帯 */
+  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); padding-block: var(--space-md); }
+  .top b { font-family: var(--font-display); font-weight: 400; font-size: var(--text-lg); white-space: nowrap; }
+  .top a { color: var(--color-ink-2); font-size: var(--text-sm); white-space: nowrap; }
+
+  /* はじめ: 文と、実際のホーム */
+  .intro { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(32px, 6vw, 80px); align-items: center; padding-block: var(--space-2xl) var(--space-3xl); }
+  .intro h1 { font-size: var(--text-display); overflow-wrap: normal; }
+  .intro h1 span { display: inline-block; white-space: nowrap; margin-right: 0.3em; }
+  .intro p { margin-top: var(--space-lg); font-size: var(--text-lg); color: var(--color-ink-2); max-width: 26em; }
+  .intro .get { margin-top: var(--space-xl); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); }
+
+  /* 画面の写し（枠は描かない。角を丸めて細い線だけ） */
+  .shot { position: relative; margin: 0; }
+  .shot img { border-radius: var(--radius-shot); outline: var(--rule-hair) solid var(--color-rule); outline-offset: -1px; }
+  .pin { position: absolute; display: flex; align-items: center; gap: var(--space-sm); pointer-events: none; }
+  .pin::before { content: ""; width: 12px; height: 12px; flex: none; border-radius: 50%; background: var(--color-star); box-shadow: 0 0 0 5px oklch(86% 0.11 85 / 0.25); }
+  .pin span { background: var(--color-paper); color: var(--color-ink); font-size: var(--text-sm); font-weight: 700; padding: 4px 10px; border-radius: var(--radius-sm); white-space: nowrap; }
+  .pin.left { flex-direction: row-reverse; }
+
+  /* ページ全体の後ろに絵を固定で敷く（暗くして文字を読めるように） */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1;
+    background:
+      linear-gradient(var(--color-veil), var(--color-veil)),
+      url("assets/keyvisual.webp") 70% 25% / cover no-repeat;
   }
 
-  /* できること: りゅう座のように星を線でつないで並べる */
-  .stars { list-style: none; padding: 0; position: relative; }
-  .stars li {
-    position: relative;
-    padding: 0 0 40px 48px;
-    max-width: 34em;
-  }
-  .stars li:nth-child(even) { margin-left: clamp(0px, 14vw, 180px); }
-  .stars li::before {
-    content: ""; position: absolute; left: 6px; top: 0.55em;
-    width: 11px; height: 11px; border-radius: 50%;
-    background: var(--star);
-    box-shadow: 0 0 0 4px rgba(242, 210, 122, 0.15), 0 0 18px rgba(242, 210, 122, 0.7);
-  }
-  .stars li::after {
-    content: ""; position: absolute; left: 11px; top: calc(0.55em + 14px); bottom: 2px;
-    width: 1px; background: var(--line);
-  }
-  .stars li:last-child::after { display: none; }
-  .stars h3 { font-size: 21px; font-weight: 700; line-height: 1.5; }
-  .stars p { color: var(--mist); margin-top: 4px; }
+  /* 見て回る: 1つずつ、左右を入れ替えて */
+  .tour { padding-block: var(--space-3xl) 0; display: grid; gap: var(--space-4xl); }
+  .step { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: clamp(32px, 7vw, 96px); align-items: center; }
+  .step.flip > .shot, .step.flip > .pair { order: 2; }
+  .step h2 { font-size: var(--text-2xl); }
+  .step p { margin-top: var(--space-md); color: var(--color-ink-2); max-width: 24em; }
+  .step .shot { max-width: 320px; }
+  .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-md); max-width: 560px; }
+  .pair .shot:last-child { margin-top: var(--space-2xl); }
 
-  /* 入れ方: 順番のある手順なので番号を付ける */
-  ol.steps { padding: 0; list-style: none; counter-reset: step; display: grid; gap: 20px; }
-  ol.steps li {
-    counter-increment: step;
-    display: grid; grid-template-columns: 44px 1fr; gap: 16px;
-    align-items: start;
-  }
-  ol.steps li::before {
-    content: counter(step);
-    width: 44px; height: 44px; border-radius: 50%;
-    display: grid; place-items: center;
-    border: 1px solid var(--line);
-    color: var(--star); font-weight: 700;
-  }
-  ol.steps strong { display: block; font-size: 18px; }
-  ol.steps span { color: var(--mist); }
+  /* ほか */
+  .more { padding-block: var(--space-4xl) 0; }
+  .more h2, .how h2, .terms h2 { font-size: var(--text-2xl); }
+  .more ul { list-style: none; padding: 0; margin-top: var(--space-xl); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-2xl); }
+  .more li { padding-block: var(--space-md); border-top: var(--rule-hair) solid var(--color-rule); color: var(--color-ink-2); }
+  .more li b { color: var(--color-ink); margin-right: var(--space-sm); }
 
-  .note {
-    margin-top: 32px;
-    padding: 20px 24px;
-    border-left: 3px solid var(--scale);
-    background: var(--sky);
-    border-radius: 0 14px 14px 0;
-    color: var(--cloud);
-  }
-  .note p + p { margin-top: 8px; }
-  .note .muted { color: var(--mist); font-size: 15px; }
+  .how { padding-block: var(--space-3xl) 0; }
+  .how ol { margin-top: var(--space-xl); padding-left: 1.4em; display: grid; gap: var(--space-md); max-width: 40em; }
+  .how li::marker { font-family: var(--font-display); color: var(--color-star); }
+  .how li b { display: block; }
+  .how li span { color: var(--color-ink-2); }
+  .how .get { margin-top: var(--space-xl); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); }
 
-  footer {
-    max-width: 920px; margin: clamp(64px, 10vw, 128px) auto 0;
-    padding: 28px clamp(16px, 6vw, 88px) 48px;
-    color: var(--mist); font-size: 14px;
-    display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
-  }
-  footer a { color: var(--mist); }
+  .terms { padding-block: var(--space-3xl) var(--space-2xl); }
+  .terms ul { margin-top: var(--space-lg); padding-left: 1.2em; color: var(--color-ink-2); font-size: var(--text-sm); display: grid; gap: var(--space-sm); max-width: 46em; }
 
-  @media (max-width: 640px) {
-    .hero { min-height: 92svh; }
-    .hero img { object-position: 78% 20%; }
-    .hero::after { background: linear-gradient(to top, var(--night) 0%, rgba(11, 21, 48, 0.75) 40%, rgba(11, 21, 48, 0) 70%); }
-    .stars li:nth-child(even) { margin-left: 0; }
+  footer { border-top: var(--rule-hair) solid var(--color-rule); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-sm) var(--space-lg); padding-block: var(--space-lg) var(--space-xl); color: var(--color-ink-2); font-size: var(--text-sm); }
+  footer a { white-space: nowrap; }
+
+  /* 3つ目の画面を過ぎたら、下にダウンロードの帯 */
+  .dock-cta {
+    position: fixed; left: 50%; bottom: var(--space-md); z-index: 5;
+    transform: translate(-50%, calc(100% + var(--space-xl)));
+    display: flex; align-items: center; gap: var(--space-md);
+    padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-lg);
+    background: var(--color-paper-3); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-pill);
+    box-shadow: 0 12px 32px var(--color-shade);
+    transition: transform var(--dur-base) var(--ease-out);
+    max-width: calc(100% - 2 * var(--space-md));
+  }
+  .dock-cta.shown { transform: translate(-50%, 0); }
+  .dock-cta span { font-size: var(--text-sm); white-space: nowrap; }
+
+  @media (max-width: 760px) {
+    .intro, .step { grid-template-columns: minmax(0, 1fr); }
+    .step.flip > .shot, .step.flip > .pair { order: 0; }
+    .intro .shot, .step .shot { max-width: 300px; }
+    .pair { max-width: 100%; }
+    .more ul { grid-template-columns: minmax(0, 1fr); }
+    .dock-cta span { display: none; }
+    .dock-cta { padding: var(--space-sm); }
+    .pin span { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .button, .dock-cta { transition: opacity 150ms linear; }
   }
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <img src="assets/keyvisual.webp" alt="星空の下で、りゅう座を背に立つ赤い竜人" width="1672" height="941">
-  <div class="hero-text">
-    <h1>Draco<span>Launcher</span></h1>
-    <p class="lead">半マスずつ置けて、ガラスの板を重ねられる Android のホームアプリ。Nova Launcher の配置を、そのまま引っ越せます。</p>
+<main>
+<header class="wrap top">
+  <b>Draco Launcher</b>
+  <a href="https://github.com/watanuki-azuma/draco-launcher/releases">これまでの版と変更点</a>
+</header>
+
+  <section class="wrap intro" aria-labelledby="h-intro">
+    <div>
+      <h1 id="h-intro"><span>自由度高めの</span><span>Android</span><span>ランチャー</span></h1>
+      <p>置き場所も見た目も、だいたい好きにできるホームアプリです。AI の力を借りて、個人で作っています。</p>
+      <div class="get">
+        <a class="button" href="https://github.com/watanuki-azuma/draco-launcher/releases/latest/download/draco-launcher.apk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+          APK をダウンロード
+        </a>
+        <span class="note" data-version>Android 10 以上・無料</span>
+      </div>
+    </div>
+    <figure class="shot">
+      <img src="assets/shot-home.webp" width="720" height="1600" alt="Draco Launcher のホーム画面。時計と天気のウィジェット、半マスずらして並べたアプリ、下にドック">
+    </figure>
+  </section>
+
+  <div class="wrap tour">
+    <section class="step" aria-labelledby="h-grid">
+      <div>
+        <h2 id="h-grid">半マス単位で置ける</h2>
+        <p>アイコンもウィジェットも、半マスずつずらして置けます。</p>
+      </div>
+      <figure class="shot">
+        <img src="assets/shot-edit.webp" width="720" height="1600" alt="編集モードのホーム画面。半マスごとの点と、アイテムの消すボタン・選ぶ丸" loading="lazy">
+        <div class="pin" style="left: 26%; top: 66.5%"><span>半マスの目印</span></div>
+      </figure>
+    </section>
+
+    <section class="step flip" aria-labelledby="h-glass">
+      <div>
+        <h2 id="h-glass">ガラスっぽくもできる</h2>
+        <p>ドックやフォルダを、壁紙が透けるガラスの板にできます。</p>
+      </div>
+      <div class="pair">
+        <figure class="shot">
+          <img src="assets/shot-glass.webp" width="720" height="1600" alt="ガラスをオンにしたホーム画面。時計・天気・ドックがガラスの板になっている" loading="lazy">
+        </figure>
+        <figure class="shot">
+          <img src="assets/shot-glass-folder.webp" width="720" height="1600" alt="ガラスのフォルダを開いたところ" loading="lazy">
+          <div class="pin left" style="right: 8%; top: 18%"><span>フォルダも</span></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="step" aria-labelledby="h-feed" id="third">
+      <div>
+        <h2 id="h-feed">左にめくると、フィード</h2>
+        <p>天気や予定、通知をまとめたページを置けます。</p>
+      </div>
+      <figure class="shot">
+        <img src="assets/shot-feed.webp" width="720" height="1600" alt="フィードの画面。天気のカードに今の天気、時間ごと、5日分の予報" loading="lazy">
+      </figure>
+    </section>
+
+    <section class="step flip" aria-labelledby="h-widget">
+      <div>
+        <h2 id="h-widget">専用ウィジェット入り</h2>
+        <p>時計、天気、電池、Wi-Fi や懐中電灯のボタンなど。</p>
+      </div>
+      <figure class="shot">
+        <img src="assets/shot-page2.webp" width="720" height="1600" alt="2ページ目。Wi-Fi・Bluetooth・懐中電灯・マナーのボタンと、電池のウィジェット" loading="lazy">
+        <div class="pin left" style="right: 6%; top: 14%"><span>押すと切り替え</span></div>
+      </figure>
+    </section>
+  </div>
+
+  <section class="wrap more" aria-labelledby="h-more">
+    <h2 id="h-more">ほかにも</h2>
+    <ul>
+      <li><b>見た目</b>アイコンの形や大きさ、ラベルの書体、色と不透明度。色はカラーピッカーで選べます</li>
+      <li><b>検索</b>下にスワイプで検索、上でアプリ一覧。ひらがなの読みでも探せます</li>
+      <li><b>やり直し</b>編集は元に戻す・やり直すができて、配置は自動で残ります</li>
+      <li><b>まとめて動かす</b>複数選んで、相対位置のまま一緒に動かせます</li>
+      <li><b>引っ越し</b>Nova Launcher のバックアップ（.novabackup）を読み込めます</li>
+      <li><b>お知らせ</b>新しい版が出ると、アプリの中で教えてくれます</li>
+    </ul>
+  </section>
+
+  <section class="wrap how" aria-labelledby="h-how">
+    <h2 id="h-how">入れ方</h2>
+    <ol>
+      <li><b>APK をダウンロード</b><span>スマホのブラウザで、下のボタンから落とします。</span></li>
+      <li><b>インストールを許可</b><span>「提供元不明のアプリ」を聞かれたら、そのブラウザに許可します。</span></li>
+      <li><b>ホームアプリに選ぶ</b><span>ホームボタンを押して、Draco Launcher を選びます。最初に簡単な紹介が出ます。</span></li>
+    </ol>
     <div class="get">
       <a class="button" href="https://github.com/watanuki-azuma/draco-launcher/releases/latest/download/draco-launcher.apk">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
         APK をダウンロード
       </a>
-      <span class="version" id="version">Android 10 以上</span>
+      <span class="note">上書きで入れれば、配置も設定もそのまま残ります</span>
     </div>
-  </div>
-</header>
-
-<main>
-  <section aria-labelledby="features">
-    <h2 id="features">できること</h2>
-    <ul class="stars">
-      <li><h3>半マスずつ置ける</h3><p>アイコンもフォルダもウィジェットも、半マス単位で好きな位置に。動かすと、ほかのアイテムがよけてくれます。</p></li>
-      <li><h3>壁紙を透かすガラス</h3><p>ドックやフォルダ、メニュー、アイコンの下地を、光を曲げるガラスの板にできます。</p></li>
-      <li><h3>見た目は自分好みに</h3><p>アイコンの形や大きさ、ラベルの書体、色と不透明度まで。色は好きなものを選べます。</p></li>
-      <li><h3>上でアプリ、下で検索</h3><p>上へスワイプでドロワー、下へスワイプで検索。読み仮名でもアプリを探せます。</p></li>
-      <li><h3>元に戻せる編集</h3><p>まとめて選んで動かす、間違えたら戻す、配置は自動で保存。安心していじれます。</p></li>
-      <li><h3>Nova から引っ越す</h3><p>Nova のバックアップ（.novabackup）を読み込むと、今の配置をそのまま持ってこられます。</p></li>
-    </ul>
   </section>
 
-  <section aria-labelledby="install">
-    <h2 id="install">入れ方</h2>
-    <ol class="steps">
-      <li><div><strong>APK をダウンロードする</strong><span>上のボタンから、スマートフォンのブラウザで落とします。</span></div></li>
-      <li><div><strong>開いて入れる</strong><span>「提供元不明のアプリ」の許可を求められたら、そのブラウザに許可します。</span></div></li>
-      <li><div><strong>ホームアプリに選ぶ</strong><span>ホームボタンを押して Draco Launcher を選ぶと、最初に紹介が出ます。</span></div></li>
-    </ol>
-    <div class="note">
-      <p>新しい版が出ると、アプリの「このアプリについて」でお知らせします。同じボタンから落として上書きすれば、配置も設定もそのまま残ります。</p>
-      <p class="muted">Google Play には出していません。個人で作っているアプリです。</p>
-    </div>
+  <section class="wrap terms" aria-labelledby="h-terms">
+    <h2 id="h-terms">使う前に</h2>
+    <ul>
+      <li>個人が AI の力を借りて作っているアプリです。無料で使えますが、動作の保証はありません。使ったことで起きた不具合や損害には、責任を負えません。</li>
+      <li>APK の再配布はしないでください。紹介するときは、このページへのリンクでお願いします。</li>
+      <li>予告なく配布や更新を終えることがあります。</li>
+      <li>今後、配布先を Google Play に移したり、広告を入れたりすることがあります。</li>
+      <li>内容は予告なく変えることがあります。</li>
+    </ul>
   </section>
 </main>
 
 <footer>
-  <span>Draco Launcher</span>
-  <a href="https://github.com/watanuki-azuma/draco-launcher/releases">これまでの版と変更点</a>
+  <div class="wrap">
+    <span>Draco Launcher</span>
+    <a href="https://github.com/watanuki-azuma/draco-launcher/releases">これまでの版と変更点</a>
+  </div>
 </footer>
 
+<div class="dock-cta" id="dock-cta" aria-hidden="true">
+  <span>気になったら</span>
+  <a class="button" tabindex="-1" href="https://github.com/watanuki-azuma/draco-launcher/releases/latest/download/draco-launcher.apk">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+    APK をダウンロード
+  </a>
+</div>
+
 <script>
-  // 最新の版の番号と日付を出す（取れなければ「Android 10 以上」のまま）
+  // 3つ目の画面を過ぎてから、入れ方のボタンが見えるまでの間だけ、下に帯を出す
+  const bar = document.getElementById("dock-cta");
+  const third = document.getElementById("third");
+  const how = document.getElementById("h-how");
+  let pastThird = false, howVisible = false;
+  function update() {
+    const on = pastThird && !howVisible;
+    bar.classList.toggle("shown", on);
+    bar.setAttribute("aria-hidden", on ? "false" : "true");
+    bar.querySelector("a").tabIndex = on ? 0 : -1;
+  }
+  new IntersectionObserver(([e]) => { pastThird = e.boundingClientRect.top < 0 || e.isIntersecting; update(); }, { threshold: 0.5 }).observe(third);
+  new IntersectionObserver(([e]) => { howVisible = e.isIntersecting || e.boundingClientRect.top < 0; update(); }).observe(how);
+
+  // 最新の版の番号と日付
   fetch("https://api.github.com/repos/watanuki-azuma/draco-launcher/releases/latest", { headers: { Accept: "application/vnd.github+json" } })
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(release => {
       const date = new Date(release.published_at).toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric" });
-      document.getElementById("version").textContent = `${release.tag_name}（${date}）、Android 10 以上`;
+      document.querySelectorAll("[data-version]").forEach(el => el.textContent = `${release.tag_name}（${date}）・Android 10 以上・無料`);
     })
     .catch(() => {});
 </script>

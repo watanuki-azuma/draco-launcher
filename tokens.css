@@ -1,0 +1,48 @@
+/* Hallmark · custom theme · vibe: 夜空・竜の赤・手づくりの道具箱
+ * axes: dark / display-heavy / warm
+ */
+:root {
+  --color-paper: oklch(16% 0.05 265);
+  --color-paper-2: oklch(21% 0.055 265);
+  --color-paper-3: oklch(26% 0.06 265);
+  --color-ink: oklch(94% 0.012 80);
+  --color-ink-2: oklch(74% 0.045 265);
+  --color-rule: oklch(94% 0.012 80 / 0.14);
+  --color-accent: oklch(52% 0.17 25);
+  --color-accent-hover: oklch(57% 0.18 25);
+  --color-on-accent: oklch(99% 0 0);
+  --color-star: oklch(86% 0.11 85);
+  --color-focus: oklch(86% 0.11 85);
+  --color-shade: oklch(10% 0.04 265 / 0.6);
+  --color-veil: oklch(16% 0.05 265 / 0.78);
+
+  --font-display: "Dela Gothic One", "Hiragino Sans", system-ui, sans-serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", system-ui, sans-serif;
+
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.5rem;
+  --text-2xl: clamp(1.75rem, 3.6vw, 2.5rem);
+  --text-display: clamp(2rem, 5vw, 3.75rem);
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 104px;
+  --space-4xl: 160px;
+
+  --radius-sm: 10px;
+  --radius-shot: 28px;
+  --radius-pill: 999px;
+  --rule-hair: 1px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+}
