@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draco Launcher</title>
+<meta name="description" content="半マスずつ置けて、ガラスの板を重ねられる Android のホームアプリ。Nova Launcher の配置をそのまま引っ越せます。">
+<meta property="og:title" content="Draco Launcher">
+<meta property="og:description" content="半マスずつ置けて、ガラスの板を重ねられる Android のホームアプリ。">
+<meta property="og:image" content="assets/keyvisual.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #0b1530;
+    --sky: #13265a;
+    --star: #f2d27a;
+    --scale: #b3262e;
+    --cloud: #ece9f2;
+    --mist: #9aa6c8;
+    --line: rgba(242, 210, 122, 0.45);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    background: var(--night);
+    color: var(--cloud);
+    font-family: "Zen Kaku Gothic New", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--star); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--star); outline-offset: 3px; border-radius: 6px; }
+
+  /* 表紙: 絵の左下（山と街の灯り）の暗い所に名前を置く */
+  .hero {
+    position: relative;
+    min-height: min(100svh, 62vw + 120px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: 70% 30%;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--night) 0%, rgba(11, 21, 48, 0.55) 28%, rgba(11, 21, 48, 0) 55%);
+  }
+  .hero-text {
+    position: relative; z-index: 1;
+    padding: 0 clamp(16px, 6vw, 88px) clamp(40px, 7vw, 96px);
+    max-width: 640px;
+  }
+  .hero h1 {
+    font-weight: 900;
+    font-size: clamp(44px, 8vw, 104px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 span { display: block; color: var(--star); }
+  .hero p.lead {
+    margin-top: 20px;
+    font-size: clamp(17px, 2vw, 20px);
+    color: var(--cloud);
+    max-width: 30em;
+  }
+  .get {
+    margin-top: 28px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px;
+  }
+  .button {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    background: var(--scale);
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none;
+    box-shadow: 0 8px 28px rgba(179, 38, 46, 0.45);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .button:hover { transform: translateY(-1px); box-shadow: 0 10px 32px rgba(179, 38, 46, 0.6); }
+  .button svg { width: 20px; height: 20px; }
+  .version { color: var(--mist); font-size: 15px; }
+
+  main { padding: 0 clamp(16px, 6vw, 88px); }
+  section { max-width: 920px; margin: 0 auto; padding: clamp(56px, 9vw, 112px) 0 0; }
+  h2 {
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.3;
+    margin-bottom: 28px;
+  }
+
+  /* できること: りゅう座のように星を線でつないで並べる */
+  .stars { list-style: none; padding: 0; position: relative; }
+  .stars li {
+    position: relative;
+    padding: 0 0 40px 48px;
+    max-width: 34em;
+  }
+  .stars li:nth-child(even) { margin-left: clamp(0px, 14vw, 180px); }
+  .stars li::before {
+    content: ""; position: absolute; left: 6px; top: 0.55em;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--star);
+    box-shadow: 0 0 0 4px rgba(242, 210, 122, 0.15), 0 0 18px rgba(242, 210, 122, 0.7);
+  }
+  .stars li::after {
+    content: ""; position: absolute; left: 11px; top: calc(0.55em + 14px); bottom: 2px;
+    width: 1px; background: var(--line);
+  }
+  .stars li:last-child::after { display: none; }
+  .stars h3 { font-size: 21px; font-weight: 700; line-height: 1.5; }
+  .stars p { color: var(--mist); margin-top: 4px; }
+
+  /* 入れ方: 順番のある手順なので番号を付ける */
+  ol.steps { padding: 0; list-style: none; counter-reset: step; display: grid; gap: 20px; }
+  ol.steps li {
+    counter-increment: step;
+    display: grid; grid-template-columns: 44px 1fr; gap: 16px;
+    align-items: start;
+  }
+  ol.steps li::before {
+    content: counter(step);
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--line);
+    color: var(--star); font-weight: 700;
+  }
+  ol.steps strong { display: block; font-size: 18px; }
+  ol.steps span { color: var(--mist); }
+
+  .note {
+    margin-top: 32px;
+    padding: 20px 24px;
+    border-left: 3px solid var(--scale);
+    background: var(--sky);
+    border-radius: 0 14px 14px 0;
+    color: var(--cloud);
+  }
+  .note p + p { margin-top: 8px; }
+  .note .muted { color: var(--mist); font-size: 15px; }
+
+  footer {
+    max-width: 920px; margin: clamp(64px, 10vw, 128px) auto 0;
+    padding: 28px clamp(16px, 6vw, 88px) 48px;
+    color: var(--mist); font-size: 14px;
+    display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
+  }
+  footer a { color: var(--mist); }
+
+  @media (max-width: 640px) {
+    .hero { min-height: 92svh; }
+    .hero img { object-position: 78% 20%; }
+    .hero::after { background: linear-gradient(to top, var(--night) 0%, rgba(11, 21, 48, 0.75) 40%, rgba(11, 21, 48, 0) 70%); }
+    .stars li:nth-child(even) { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img src="assets/keyvisual.webp" alt="星空の下で、りゅう座を背に立つ赤い竜人" width="1672" height="941">
+  <div class="hero-text">
+    <h1>Draco<span>Launcher</span></h1>
+    <p class="lead">半マスずつ置けて、ガラスの板を重ねられる Android のホームアプリ。Nova Launcher の配置を、そのまま引っ越せます。</p>
+    <div class="get">
+      <a class="button" href="https://github.com/watanuki-azuma/draco-launcher/releases/latest/download/draco-launcher.apk">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+        APK をダウンロード
+      </a>
+      <span class="version" id="version">Android 10 以上</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section aria-labelledby="features">
+    <h2 id="features">できること</h2>
+    <ul class="stars">
+      <li><h3>半マスずつ置ける</h3><p>アイコンもフォルダもウィジェットも、半マス単位で好きな位置に。動かすと、ほかのアイテムがよけてくれます。</p></li>
+      <li><h3>壁紙を透かすガラス</h3><p>ドックやフォルダ、メニュー、アイコンの下地を、光を曲げるガラスの板にできます。</p></li>
+      <li><h3>見た目は自分好みに</h3><p>アイコンの形や大きさ、ラベルの書体、色と不透明度まで。色は好きなものを選べます。</p></li>
+      <li><h3>上でアプリ、下で検索</h3><p>上へスワイプでドロワー、下へスワイプで検索。読み仮名でもアプリを探せます。</p></li>
+      <li><h3>元に戻せる編集</h3><p>まとめて選んで動かす、間違えたら戻す、配置は自動で保存。安心していじれます。</p></li>
+      <li><h3>Nova から引っ越す</h3><p>Nova のバックアップ（.novabackup）を読み込むと、今の配置をそのまま持ってこられます。</p></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="install">
+    <h2 id="install">入れ方</h2>
+    <ol class="steps">
+      <li><div><strong>APK をダウンロードする</strong><span>上のボタンから、スマートフォンのブラウザで落とします。</span></div></li>
+      <li><div><strong>開いて入れる</strong><span>「提供元不明のアプリ」の許可を求められたら、そのブラウザに許可します。</span></div></li>
+      <li><div><strong>ホームアプリに選ぶ</strong><span>ホームボタンを押して Draco Launcher を選ぶと、最初に紹介が出ます。</span></div></li>
+    </ol>
+    <div class="note">
+      <p>新しい版が出ると、アプリの「このアプリについて」でお知らせします。同じボタンから落として上書きすれば、配置も設定もそのまま残ります。</p>
+      <p class="muted">Google Play には出していません。個人で作っているアプリです。</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Draco Launcher</span>
+  <a href="https://github.com/watanuki-azuma/draco-launcher/releases">これまでの版と変更点</a>
+</footer>
+
+<script>
+  // 最新の版の番号と日付を出す（取れなければ「Android 10 以上」のまま）
+  fetch("https://api.github.com/repos/watanuki-azuma/draco-launcher/releases/latest", { headers: { Accept: "application/vnd.github+json" } })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(release => {
+      const date = new Date(release.published_at).toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric" });
+      document.getElementById("version").textContent = `${release.tag_name}（${date}）、Android 10 以上`;
+    })
+    .catch(() => {});
+</script>
+</body>
+</html>
