@@ -104,6 +104,8 @@
   footer { border-top: var(--rule-hair) solid var(--color-rule); }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-sm) var(--space-lg); padding-block: var(--space-lg) var(--space-xl); color: var(--color-ink-2); font-size: var(--text-sm); }
   footer a { white-space: nowrap; }
+  footer .legal { flex-basis: 100%; font-size: 12px; line-height: 1.7; }
+  footer .legal a { white-space: normal; }
 
   /* 3つ目の画面を過ぎたら、下にダウンロードの帯 */
   .dock-cta {
@@ -247,12 +249,24 @@
       <li>内容は予告なく変えることがあります。</li>
     </ul>
   </section>
+
+  <section class="wrap terms" aria-labelledby="h-privacy">
+    <h2 id="h-privacy">プライバシー</h2>
+    <ul>
+      <li>アカウントはありません。配置・設定・よく使うアプリの記録は端末の中だけに保存し、外へは送りません。広告や分析のための情報も集めていません。</li>
+      <li>天気を出すとき、おおまかな位置（小数 2 桁に丸めた緯度・経度）を <a href="https://open-meteo.com/">Open-Meteo</a> に送ります。地域の名前は Android の機能（Google のサービス）で調べます。</li>
+      <li>新しい版の確認のとき、GitHub に今の版を問い合わせます（オフにできます）。</li>
+      <li>フィードのニュースは、自分で足したサイトにだけ取りに行きます。</li>
+      <li>予定・通知・位置などの許可は、その機能を使うときにだけ求めます。読んだ中身は端末の外に出しません。</li>
+    </ul>
+  </section>
 </main>
 
 <footer>
   <div class="wrap">
     <span>Draco Launcher</span>
     <a href="https://github.com/watanuki-azuma/draco-launcher/releases">これまでの版と変更点</a>
+    <small class="legal">天気のデータ: <a href="https://open-meteo.com/">Open-Meteo.com</a>（CC BY 4.0）。Android は Google LLC の商標です。Nova Launcher は各権利者の商標で、Draco Launcher とは関係ありません。画面の中のアプリのアイコンは、それぞれの持ち主の商標です。</small>
   </div>
 </footer>
 
