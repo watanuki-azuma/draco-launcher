@@ -1,0 +1,38 @@
+name: 不具合の報告
+description: Draco Launcher の不具合を知らせる
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: 報告ありがとうございます。個人で作っているので、返事や直すのに時間がかかることがあります。
+  - type: textarea
+    id: steps
+    attributes:
+      label: 何をしたら
+      description: 起きるまでの手順
+      placeholder: "1. 設定の「壁紙」を開く\n2. …"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: どうなった
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: どうなるはずだった
+  - type: textarea
+    id: device
+    attributes:
+      label: 端末
+      description: アプリの「不具合を報告する」から開くと、最初から入っています
+      placeholder: "機種: \nAndroid: \nアプリ: "
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 画面の写し
+      description: あれば貼ってください（個人の情報が写っていないか確かめてから）
