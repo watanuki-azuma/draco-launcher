@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Draco Launcher</title>
-<meta name="description" content="お待たせしました、Dracoです。自由度MAXのAndroidランチャー。">
+<meta name="description" content="お待たせしました、Dracoです。ホーム画面を思いどおりにできる Android ランチャー。">
 <meta property="og:title" content="Draco Launcher">
-<meta property="og:description" content="お待たせしました、Dracoです。自由度MAXのAndroidランチャー。">
+<meta property="og:description" content="お待たせしました、Dracoです。ホーム画面を思いどおりにできる Android ランチャー。">
 <meta property="og:image" content="https://watanuki-azuma.github.io/draco-launcher/assets/keyvisual.webp">
-<meta name="theme-color" content="#0d1430">
+<meta name="theme-color" content="#141b3a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=2">
+<link rel="stylesheet" href="tokens.css?v=3">
 <style>
   /* ページそのものをホーム画面に見立てる: 点のグリッドの上に画面を置き、ところどころ半マスずらす */
   * { box-sizing: border-box; margin: 0; }
@@ -58,16 +58,15 @@
   }
   .hero::after {
     content: ""; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(90deg, rgba(13, 20, 48, 0.92) 0%, rgba(13, 20, 48, 0.72) 42%, rgba(13, 20, 48, 0.05) 75%);
+    background: linear-gradient(90deg, rgba(20, 27, 58, 0.94) 0%, rgba(20, 27, 58, 0.74) 40%, rgba(20, 27, 58, 0) 74%);
   }
   .top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); padding-block: var(--space-lg); }
   .top b { font-weight: 800; font-size: var(--text-lg); letter-spacing: 0.01em; white-space: nowrap; }
   .top a { color: var(--color-on-night-2); font-size: var(--text-sm); white-space: nowrap; text-underline-offset: 3px; }
   .top a:hover { color: var(--color-on-night); }
   .hero-body { padding-block: clamp(48px, 9vw, 120px) clamp(160px, 22vw, 260px); max-width: 1160px; }
-  .hero h1 { font-weight: 900; font-size: var(--text-display); line-height: 1.08; letter-spacing: -0.01em; }
+  .hero h1 { font-weight: 800; font-size: var(--text-display); line-height: 1.12; letter-spacing: 0.01em; }
   .hero h1 span { display: block; white-space: nowrap; }
-  .hero h1 .sub { color: var(--color-star); }
   .hero p { margin-top: var(--space-lg); font-size: var(--text-lg); color: var(--color-on-night-2); max-width: 24em; }
   .get { margin-top: var(--space-xl); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); }
   .hero .note { color: var(--color-on-night-2); }
@@ -86,7 +85,7 @@
   .shot { position: relative; }
   .shot img {
     border-radius: var(--radius-shot);
-    box-shadow: 0 1px 0 rgba(16, 22, 42, 0.06), 0 18px 40px -18px var(--color-shade);
+    box-shadow: 0 1px 0 rgba(20, 27, 58, 0.06), 0 18px 40px -18px var(--color-shade);
     background: var(--color-night);
   }
   .tile figcaption { margin-top: var(--space-lg); }
@@ -98,7 +97,7 @@
     padding: 4px 10px 4px 6px; border-radius: var(--radius-pill); white-space: nowrap;
     box-shadow: 0 6px 16px -6px var(--color-shade);
   }
-  .pin::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--color-star); box-shadow: 0 0 0 3px rgba(242, 201, 76, 0.35); }
+  .pin::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--color-star); box-shadow: 0 0 0 3px rgba(232, 212, 154, 0.45); }
   .inset {
     position: absolute; width: 44%; right: 6%; bottom: 5%;
     border-radius: 16px; overflow: hidden; outline: 3px solid rgba(255, 255, 255, 0.9);
@@ -123,7 +122,7 @@
   .how { padding-block: var(--space-2xl); }
   .how ol { list-style: none; padding: 0; margin-top: var(--space-xl); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-lg); counter-reset: step; }
   .how li { counter-increment: step; border-top: 2px solid var(--color-ink); padding-top: var(--space-md); }
-  .how li::before { content: counter(step); display: block; font-weight: 900; font-size: 2.5rem; line-height: 1; color: var(--color-accent); margin-bottom: var(--space-md); }
+  .how li::before { content: counter(step); display: block; font-weight: 900; font-size: 2.5rem; line-height: 1; color: var(--color-ink); margin-bottom: var(--space-md); }
   .how li b { display: block; font-size: var(--text-lg); font-weight: 700; }
   .how li span { display: block; margin-top: 4px; color: var(--color-ink-2); }
   .how .note { color: var(--color-ink-2); }
@@ -134,7 +133,7 @@
   .fine ul { margin-top: var(--space-md); padding-left: 1.1em; color: var(--color-ink-2); font-size: var(--text-sm); display: grid; gap: var(--space-sm); }
   .fine a { text-underline-offset: 3px; }
 
-  footer { background: var(--color-night); color: var(--color-on-night-2); }
+  footer { background: var(--color-night-2); color: var(--color-on-night-2); }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-sm) var(--space-lg); padding-block: var(--space-xl); font-size: var(--text-sm); }
   footer b { color: var(--color-on-night); font-weight: 800; }
   footer a { white-space: nowrap; text-underline-offset: 3px; }
@@ -166,7 +165,7 @@
     .more li:nth-child(2n) { border-left: 1px solid var(--color-rule) !important; }
   }
   @media (max-width: 640px) {
-    .hero::after { background: linear-gradient(180deg, rgba(13, 20, 48, 0.55) 0%, rgba(13, 20, 48, 0.88) 55%, rgba(13, 20, 48, 0.94) 100%); }
+    .hero::after { background: linear-gradient(180deg, rgba(20, 27, 58, 0.5) 0%, rgba(20, 27, 58, 0.86) 55%, rgba(20, 27, 58, 0.94) 100%); }
     .hero h1 span { white-space: normal; }
     .board { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--cell) var(--space-md); }
     .tile h2 { font-size: var(--text-lg); }
@@ -198,7 +197,7 @@
       <a href="https://github.com/watanuki-azuma/draco-launcher/releases">これまでの版と変更点</a>
     </header>
     <div class="wrap hero-body">
-      <h1 id="h-intro"><span class="sub">自由度MAX</span><span>Android</span><span>ランチャー</span></h1>
+      <h1 id="h-intro"><span>ホーム画面を、</span><span>思いどおりに。</span></h1>
       <p>思った通りの場所に、思った見た目で。だいたいのことはできるようにします。</p>
       <div class="get">
         <a class="button" href="https://github.com/watanuki-azuma/draco-launcher/releases/latest/download/draco-launcher.apk">

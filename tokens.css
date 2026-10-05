@@ -1,23 +1,24 @@
 /* Draco Launcher の紹介ページの色と寸法。
- * 明るい地に、ホームの編集モードと同じ点のグリッド。竜の赤はダウンロードだけに使う。
+ * 色はすべてキービジュアルから取る: 夜空の藍・竜の紅・Tシャツの白・星の淡い金。
+ * 文字・点・線・影は藍に寄せ、紅はダウンロードだけ、金は点の印だけに使う。
  */
 :root {
-  --color-paper: #f3f5f8;
-  --color-paper-2: #e9edf3;
-  --color-card: #ffffff;
-  --color-ink: #10162a;
-  --color-ink-2: #566079;
-  --color-rule: #d5dbe5;
-  --color-dot: #c3cad7;
-  --color-night: #0d1430;
-  --color-on-night: #f4f6fb;
-  --color-on-night-2: #b9c1d9;
-  --color-accent: #cf3b2f;
-  --color-accent-hover: #b8301f;
+  --color-paper: #eef0f6;      /* Tシャツの白（影の青み） */
+  --color-card: #fbfbfd;
+  --color-ink: #141b3a;        /* 夜空の藍 */
+  --color-ink-2: #59618a;
+  --color-rule: #d3d8e8;
+  --color-dot: #b4bbd6;
+  --color-night: #141b3a;
+  --color-night-2: #0c1129;
+  --color-on-night: #f3f4fa;
+  --color-on-night-2: #aeb6d6;
+  --color-accent: #b3261e;     /* 竜の紅 */
+  --color-accent-hover: #9b1f18;
   --color-on-accent: #ffffff;
-  --color-star: #f2c94c;
-  --color-focus: #2f6bff;
-  --color-shade: rgba(16, 22, 42, 0.16);
+  --color-star: #e8d49a;       /* 星の淡い金 */
+  --color-focus: #4c6ef5;
+  --color-shade: rgba(20, 27, 58, 0.22);
 
   --font-sans: "M PLUS 1", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
 
@@ -27,7 +28,7 @@
   --text-lg: 1.125rem;
   --text-xl: clamp(1.375rem, 2.4vw, 1.75rem);
   --text-2xl: clamp(1.75rem, 3.4vw, 2.625rem);
-  --text-display: clamp(2.5rem, 7.2vw, 5.75rem);
+  --text-display: clamp(2.375rem, 6.4vw, 5.25rem);
 
   /* 1 マス。点のグリッドとレイアウトのずらしに使う */
   --cell: 28px;
